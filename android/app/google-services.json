@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "706134238441",
+    "project_id": "sab-sunno",
+    "storage_bucket": "sab-sunno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706134238441:android:c06333f9daa7573e78fc78",
+        "android_client_info": {
+          "package_name": "com.example.sab_sunno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706134238441-rhndv5fdfn088jevoanj1kd27oufupu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV19ZkosdtH1labYUHJ8aCSDaNdG9IgWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706134238441-rhndv5fdfn088jevoanj1kd27oufupu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
