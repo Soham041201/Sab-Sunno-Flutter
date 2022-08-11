@@ -64,10 +64,9 @@ Future registerUser(String mobile, BuildContext context) async {
                                       smsCode: pin);
                               auth
                                   .signInWithCredential(credential)
-                                  .then((result) {
-                                Navigator.pushNamed(context, '/chat');
-                                print(result.user?.phoneNumber);
-                                // register(result.user?.phoneNumber);
+                                  .then((result) async {
+                                await register(result.user?.phoneNumber)
+                                    .then((value) => Navigator.pop(context));
                               });
                             })
                       ],

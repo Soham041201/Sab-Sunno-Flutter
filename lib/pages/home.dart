@@ -24,6 +24,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Sab Sunno',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.account_circle,
+              color: Colors.white,
+              size: 36,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -59,7 +71,12 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/login');
                 },
-                child: const Text('send sms'))
+                child: const Text('send sms')),
+            CupertinoButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/users');
+                },
+                child: const Text('get users')),
           ],
         ),
       ),
@@ -67,8 +84,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> testData() async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2:8000/'));
+    final response = await http.get(Uri.parse('http://10.0.2.2:8000/'));
     if (response.statusCode == 200) {
       return response.body;
     } else {

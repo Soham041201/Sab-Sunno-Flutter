@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sab_sunno/util/login_otp.dart';
 import 'package:sab_sunno/util/register_user.dart';
+
+import '../Providers/user.dart';
 
 class LoginScreen extends StatelessWidget {
   final _phoneController = TextEditingController();
@@ -42,11 +45,10 @@ class LoginScreen extends StatelessWidget {
               height: 16,
             ),
             CupertinoButton(
-              onPressed: ()async {
+              onPressed: () async {
                 //code for sign in
                 final mobile = _phoneController.text.trim();
-                await register(mobile);
-                // registerUser(mobile, context);
+                await registerUser(mobile, context);
               },
               color: Colors.orangeAccent,
               borderRadius: const BorderRadius.all(Radius.circular(30)),
@@ -65,5 +67,3 @@ class LoginScreen extends StatelessWidget {
     ));
   }
 }
-
-

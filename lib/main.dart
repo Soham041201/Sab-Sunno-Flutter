@@ -1,11 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sab_sunno/pages/chat.dart';
 import 'package:sab_sunno/pages/home.dart';
 import 'package:sab_sunno/pages/login.dart';
+import 'package:sab_sunno/pages/profile.dart';
+import 'package:sab_sunno/pages/users.dart';
 import 'package:sab_sunno/socket/socket.dart';
+import 'package:sab_sunno/util/register_user.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'Providers/user.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -14,7 +19,12 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => User(), lazy: false)
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -25,7 +35,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   Socket socket = socketInit();
 
   @override
@@ -33,6 +42,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     initChat(socket);
+    getUser(context);
   }
 
   @override
@@ -47,10 +57,12 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         routes: {
           '/': (context) => const HomePage(),
-          '/chat': (context) => ChatList( 
-                socket : socket,
+          '/chat': (context) => ChatList(
+                socket: socket,
               ),
           '/login': (context) => LoginScreen(),
+          '/users': (context) => const UserList(),
+          '/profile': (context) => const ProfilePage(),
         });
   }
 }

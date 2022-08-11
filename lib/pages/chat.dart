@@ -137,7 +137,7 @@ class StreamSocket {
   }
 }
 
-class Message extends Object with ChangeNotifier {
+class Message extends Object {
   String message = '';
   bool isSender = true;
 
