@@ -29,8 +29,10 @@ class _ChatListState extends State<ChatList> {
 
   chatClient(Socket? socket) {
     print("=============Chat client initialized===========");
-    print(socket?.id);
-    socket?.emit('chat-join', "========Chat connected=========");
+    String? connectionId =
+        Provider.of<Connection>(context(), listen: false).connectionId;
+    print("Connection id $connectionId");
+    socket?.emit('chat-join',connectionId);
 
     socket?.on(
         'chat-connected',
@@ -61,7 +63,7 @@ class _ChatListState extends State<ChatList> {
             });
 
     socket?.emit('is_online');
-  
+
     socket?.on(
         'last_seen',
         (data) => {

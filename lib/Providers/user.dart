@@ -5,10 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class User extends ChangeNotifier {
   late String id;
-  late String phoneNumber;
-  late String photoURL;
-  late String username;
-  late String about;
+  String phoneNumber = '';
+  String photoURL = '';
+  String username = '';
+  String about = '';
 
   void signIn(String phone) async {
     phoneNumber = phone;
@@ -32,8 +32,9 @@ class User extends ChangeNotifier {
     if (!identical(image, photoURL)) {
       photoURL = image;
       final prefs = await SharedPreferences.getInstance();
-  final _id = prefs.getString('_id');
-      var response = await http.post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
+      final _id = prefs.getString('_id');
+      var response = await http.post(
+          Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'field': 'photoURL',
@@ -46,24 +47,24 @@ class User extends ChangeNotifier {
 
   void updateAbout(String aboutBio) async {
     about = aboutBio;
-      final prefs = await SharedPreferences.getInstance();
-  final _id = prefs.getString('_id');
+    final prefs = await SharedPreferences.getInstance();
+    final _id = prefs.getString('_id');
     print("Update about");
-      var response = await http
-          .post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
-              headers: {'Content-Type': 'application/json; charset=UTF-8'},
-              body: jsonEncode(<String, String>{
-                'field': 'about',
-                'value': aboutBio,
-              }))
-          .then((res) => {print(res.body), notifyListeners()})
-          .onError((error, stackTrace) => {print(error)});
+    var response = await http
+        .post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            body: jsonEncode(<String, String>{
+              'field': 'about',
+              'value': aboutBio,
+            }))
+        .then((res) => {print(res.body), notifyListeners()})
+        .onError((error, stackTrace) => {print(error)});
     notifyListeners();
   }
 
   void updateUsername(String uUsername) async {
-  final prefs = await SharedPreferences.getInstance();
-  final _id = prefs.getString('_id');
+    final prefs = await SharedPreferences.getInstance();
+    final _id = prefs.getString('_id');
     print("Updating username");
     username = uUsername;
     print("Updated username " + uUsername);

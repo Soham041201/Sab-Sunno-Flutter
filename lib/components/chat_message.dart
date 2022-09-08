@@ -22,7 +22,15 @@ class ChatMessage extends StatelessWidget {
           margin: const EdgeInsets.all(3),
           constraints: const BoxConstraints(minWidth: 80, maxWidth: 250),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(15),
+                topRight: const Radius.circular(15),
+                bottomRight: messages[index].isSender
+                    ? const Radius.circular(0)
+                    : const Radius.circular(15),
+                bottomLeft: messages[index].isSender
+                    ? const Radius.circular(15)
+                    : const Radius.circular(0)),
             color: Colors.orange,
           ),
           padding: const EdgeInsets.all(10),

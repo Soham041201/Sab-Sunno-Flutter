@@ -24,17 +24,18 @@ class _OtherProfileState extends State<OtherProfile> {
 
   void setData(context, userId) async {
     var data = await getUser(context, userId);
-    String? statusData = await getConnectionStatus(widget.userId);
-    print(statusData);
+    var statusData = await getConnectionStatus(widget.userId);
     if (mounted) {
       setState(() {
         user = data;
-        status = statusData!;
+        status = statusData['status']!;
         Provider.of<Connection>(context, listen: false).setOtherUser(
             user['_id'],
             user['photoURL'],
             user['firstName'] ?? '',
-            user['username']);
+            user['username'],
+            statusData['_id']
+            );
       });
     }
   }
@@ -70,7 +71,7 @@ class _OtherProfileState extends State<OtherProfile> {
                           ? sendConnectionRequest(user['_id'])
                           : status == "pending"
                               ? {}
-                              : Navigator.pushNamed(context,'/chat'),
+                              : Navigator.pushNamed(context, '/chat'),
                       icon: status == "notConnected"
                           ? const Icon(
                               Icons.add,

@@ -22,7 +22,7 @@ Future<String?> sendConnectionRequest(String otherUserId) async {
   }
 }
 
-Future<String?> getConnectionStatus(String? otherUserId) async {
+getConnectionStatus(String? otherUserId) async {
   final prefs = await SharedPreferences.getInstance();
   final _id = prefs.getString('_id');
   print("User id" + _id!);
@@ -36,7 +36,7 @@ Future<String?> getConnectionStatus(String? otherUserId) async {
   if (response.statusCode == 200) {
     var data = jsonDecode(response.body);
     print(data);
-    return data['connection']['status'];
+    return data['connection'];
   } else {
     return "notConnected";
   }
@@ -51,7 +51,8 @@ Future updateStatus(String userId, String status) async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({'userId': userId,'otherUserId':_id, 'status': status}));
+      body:
+          jsonEncode({'userId': userId, 'otherUserId': _id, 'status': status}));
   if (response.statusCode == 200) {
     var data = jsonDecode(response.body);
     print(data);

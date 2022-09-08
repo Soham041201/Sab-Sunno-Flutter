@@ -1,8 +1,4 @@
 // ignore_for_file: avoid_print
-
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:sab_sunno/Providers/socket.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 // https://sab-sunno-backend.herokuapp.com
@@ -29,7 +25,6 @@ initChat(Socket? socket) {
     print('Connected timeout' + data);
   });
   socket?.onDisconnect((data) => {
-        // Provider.of<Online>(context, listen: false).setOtherUser(data),
         print('============Disconnected from server========')
       });
 }

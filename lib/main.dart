@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sab_sunno/Providers/connection.dart';
-import 'package:sab_sunno/Providers/socket.dart';
 import 'package:sab_sunno/pages/chat.dart';
 import 'package:sab_sunno/pages/authentication/get_started.dart';
 import 'package:sab_sunno/pages/home.dart';
