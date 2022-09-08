@@ -1,19 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class User extends ChangeNotifier {
-  String id = '';
-  String phoneNumber = "";
-  String photoURL = "";
-  String username = "";
-  String about = "";
+  late String id;
+  late String phoneNumber;
+  late String photoURL;
+  late String username;
+  late String about;
 
   void signIn(String phone) async {
     phoneNumber = phone;
     await http
-        .post(Uri.parse('http://10.0.2.2:8000/user'),
+        .post(Uri.parse('https://sab-sunno-backend.herokuapp.com/user'),
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             body: jsonEncode({
               'phoneNumber': phoneNumber,
@@ -31,39 +31,44 @@ class User extends ChangeNotifier {
   void updateImage(String image) async {
     if (!identical(image, photoURL)) {
       photoURL = image;
-      var response =
-          await http.put(Uri.parse('http://10.0.2.2:8000/user-field/$id'),
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode({
-                'field': 'photoURL',
-                'value': photoURL,
-              }));
+      final prefs = await SharedPreferences.getInstance();
+  final _id = prefs.getString('_id');
+      var response = await http.post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'field': 'photoURL',
+            'value': photoURL,
+          }));
     }
     photoURL = image;
     notifyListeners();
   }
 
   void updateAbout(String aboutBio) async {
-    if (about != aboutBio) {
-      await http
-          .put(Uri.parse('http://10.0.2.2:8000/user-field/$id'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
+    about = aboutBio;
+      final prefs = await SharedPreferences.getInstance();
+  final _id = prefs.getString('_id');
+    print("Update about");
+      var response = await http
+          .post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
+              headers: {'Content-Type': 'application/json; charset=UTF-8'},
               body: jsonEncode(<String, String>{
                 'field': 'about',
-                'value': about,
+                'value': aboutBio,
               }))
-          .then((res) => {notifyListeners()});
-    }
+          .then((res) => {print(res.body), notifyListeners()})
+          .onError((error, stackTrace) => {print(error)});
     notifyListeners();
   }
 
   void updateUsername(String uUsername) async {
+  final prefs = await SharedPreferences.getInstance();
+  final _id = prefs.getString('_id');
     print("Updating username");
     username = uUsername;
-    await http
-        .put(Uri.parse('http://10.0.2.2:8000/user-field/$id'),
+    print("Updated username " + uUsername);
+    var respose = await http
+        .post(Uri.parse('https://sab-sunno-backend.herokuapp.com/field/$_id'),
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             body: jsonEncode({
               'field': 'username',

@@ -1,36 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sab_sunno/util/login_otp.dart';
-import 'package:sab_sunno/util/register_user.dart';
 
-import '../Providers/user.dart';
+import '../../util/login_otp.dart';
 
-class LoginScreen extends StatelessWidget {
+class MobileNumber extends StatefulWidget {
+  const MobileNumber({Key? key}) : super(key: key);
+
+  @override
+  State<MobileNumber> createState() => _MobileNumberState();
+}
+
+class _MobileNumberState extends State<MobileNumber> {
   final _phoneController = TextEditingController();
-
-  LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      padding: const EdgeInsets.all(32),
-      child: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+    return (Scaffold(
+      body: Container(
+        padding: const EdgeInsets.all(32),
+        child: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(
-              "Login",
+              "Lets verify our phone number for communication",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 36,
+                  fontSize: 18,
                   fontWeight: FontWeight.w800),
             ),
-            const SizedBox(height: 32),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.grey[200]!)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -41,8 +43,8 @@ class LoginScreen extends StatelessWidget {
               controller: _phoneController,
               keyboardType: TextInputType.phone,
             ),
-            const SizedBox(
-              height: 16,
+            SizedBox(
+              height: 10,
             ),
             CupertinoButton(
               onPressed: () async {
@@ -55,13 +57,13 @@ class LoginScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text('Get Started'),
+                children: [
+                  Text('Login'),
                   Icon(Icons.arrow_forward),
                 ],
               ),
             ),
-          ],
+          ]),
         ),
       ),
     ));

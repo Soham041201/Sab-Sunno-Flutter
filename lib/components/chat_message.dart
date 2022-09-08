@@ -19,7 +19,7 @@ class ChatMessage extends StatelessWidget {
           : Alignment.centerLeft,
       children: [
         Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(3),
           constraints: const BoxConstraints(minWidth: 80, maxWidth: 250),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),

@@ -2,10 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sab_sunno/Providers/connection.dart';
+import 'package:sab_sunno/Providers/socket.dart';
 import 'package:sab_sunno/pages/chat.dart';
+import 'package:sab_sunno/pages/authentication/get_started.dart';
 import 'package:sab_sunno/pages/home.dart';
-import 'package:sab_sunno/pages/login.dart';
-import 'package:sab_sunno/pages/profile.dart';
+import 'package:sab_sunno/pages/authentication/login.dart';
+import 'package:sab_sunno/pages/dashboard/profile_self.dart';
+import 'package:sab_sunno/pages/authentication/username_profile.dart';
+import 'package:sab_sunno/pages/notifications.dart';
 import 'package:sab_sunno/pages/users.dart';
 import 'package:sab_sunno/socket/socket.dart';
 import 'package:sab_sunno/util/register_user.dart';
@@ -21,7 +26,8 @@ Future<void> main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => User(), lazy: false)
+      ChangeNotifierProvider(create: (context) => User(), lazy: false),
+      ChangeNotifierProvider(create: (context) => Connection(), lazy: false),
     ],
     child: const MyApp(),
   ));
@@ -42,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     initChat(socket);
-    getUser(context);
+    getUser(context());
   }
 
   @override
@@ -63,6 +69,9 @@ class _MyAppState extends State<MyApp> {
           '/login': (context) => LoginScreen(),
           '/users': (context) => const UserList(),
           '/profile': (context) => const ProfilePage(),
+          '/get-started': (context) => const GetStarted(),
+          '/username-image': (context) => const UsernameProfile(),
+          '/notification': (context) => const Notifications()
         });
   }
 }

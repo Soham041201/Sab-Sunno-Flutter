@@ -65,8 +65,17 @@ Future registerUser(String mobile, BuildContext context) async {
                               auth
                                   .signInWithCredential(credential)
                                   .then((result) async {
-                                await register(result.user?.phoneNumber)
-                                    .then((value) => Navigator.pop(context));
+                                await registerPhone(result.user?.phoneNumber)
+                                    .then((value) => {
+                                          print(value),
+                                          value['photoURL'] != null &&
+                                                  value['username'] != null &&
+                                                  value['about'] != null
+                                              ? Navigator.popAndPushNamed(
+                                                  context, '/users')
+                                              : Navigator.pushNamed(
+                                                  context, '/username-image')
+                                        });
                               });
                             })
                       ],

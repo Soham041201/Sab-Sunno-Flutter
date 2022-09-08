@@ -20,7 +20,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(builder: (context, user, child) {
-      print(user.about);
       return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
@@ -36,28 +35,26 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null,
                       radius: 80,
                       backgroundColor: Colors.grey,
-                      child: IconButton(
-                          onPressed: () async {
-                            String? image = await uploadFile();
-                            user.updateImage(image);
-                          },
-                          icon: const Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white,
-                            size: 32,
-                          ))),
+                      child: user.photoURL != ''
+                          ? IconButton(
+                              onPressed: () async {
+                                String? image = await uploadFile();
+                                user.updateImage(image);
+                              },
+                              icon: const Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 32,
+                              ))
+                          : const CircularProgressIndicator()),
                 ),
                 ListTile(
                   leading: const Icon(Icons.phone),
                   title: const Text('Phone Number',
-                      style: TextStyle(fontSize: 12)),
+                      style: TextStyle(fontSize: 16)),
                   subtitle: Text(user.phoneNumber,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                ),
-                ListTile(
-                  title: Text('Id'),
-                  subtitle: Text(user.id),
+                          fontWeight: FontWeight.bold, fontSize: 16)),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),

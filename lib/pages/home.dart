@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:sab_sunno/Providers/user.dart';
+import 'package:sab_sunno/pages/authentication/get_started.dart';
+import 'package:sab_sunno/pages/users.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,84 +15,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<String> data;
-
+  bool user = false;
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    data = testData();
+    // data = testData();
+    isUser();
+  }
+
+  Future isUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final _id = prefs.getString('_id');
+    print(_id);
+    setState(() {
+      user = _id != null;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sab Sunno',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 36,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FutureBuilder<String>(
-              future: data,
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data!,
-                      style: Theme.of(context).textTheme.headline4);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-            CupertinoButton(
-                color: Colors.orangeAccent,
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/chat');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text('Get Started'),
-                    Icon(Icons.arrow_forward),
-                  ],
-                )),
-            CupertinoButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: const Text('send sms')),
-            CupertinoButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/users');
-                },
-                child: const Text('get users')),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<String> testData() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/'));
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      throw Exception('Failed to load data');
-    }
+    return !isLoading
+        ? user
+            ? const UserList()
+            : const GetStarted()
+        : const CircularProgressIndicator();
   }
 }
